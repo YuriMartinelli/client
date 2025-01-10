@@ -1,0 +1,131 @@
+/* Estilo geral */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    color: #4CAF50;
+}
+
+/* Botões */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#addTaskButton {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.remove {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.filter-buttons button {
+    margin-right: 10px;
+    background-color: #3498db;
+    color: white;
+}
+
+/* Lista de tarefas */
+#taskList {
+    list-style: none;
+    padding: 0;
+}
+
+#taskList li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f4f4f4;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+#taskList li.completed {
+    background-color: #d5f5e3;
+    color: #333;
+}
+
+/* Categorias */
+.category {
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 3px 7px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.category.trabalho {
+    background-color: #007bff;
+    color: white;
+}
+
+.category.pessoal {
+    background-color: #28a745;
+    color: white;
+}
+
+.category.urgente {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Inputs */
+input[type="text"] {
+    width: calc(100% - 25px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+select {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    button {
+        font-size: 0.8rem;
+        padding: 8px 10px;
+    }
+
+    input[type="text"] {
+        font-size: 0.9rem;
+    }
+}
