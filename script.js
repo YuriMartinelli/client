@@ -9,32 +9,46 @@ let tasks = [];
 // Carrega tarefas do localStorage ao iniciar
 function loadTasks() {
     tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-    tasks.forEach(task => addTaskToDOM(task.text, task.completed));
+    tasks.forEach(task => addTaskToDOM(task.text, task.completed, task.category));
 }
 
-// Salva o array de tarefas no localStorage
 function saveTasks() {
+    const tasks = [];
+    document.querySelectorAll('#taskList li').forEach((li) => {
+        const taskText = li.firstChild.textContent.trim();
+        const categoryLabel = li.querySelector('.category-label');
+        const category = categoryLabel ? categoryLabel.textContent.replace(/[()]/g, '') : '';
+
+        tasks.push({
+            text: taskText,
+            completed: li.classList.contains('completed'),
+            category: category,
+        });
+    });
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-// Adiciona uma nova tarefa ao estado e ao DOM
 function addTask(taskText, completed = false) {
     tasks.push({ text: taskText, completed });
     saveTasks();
     addTaskToDOM(taskText, completed);
 }
 
-// Adiciona uma tarefa ao DOM
-function addTaskToDOM(taskText, completed = false) {
-    const taskAtual = tasks.find(task => task.text === taskText);
+function addTaskToDOM(taskText, completed = false, category = '') {
     const li = document.createElement('li');
+    li.textContent = taskText;
 
     const selectCategory = document.createElement('select');
     li.appendChild(selectCategory);
 
     handleSelectCategory(li, selectCategory, taskText);
 
-    li.textContent = taskText + `(${taskAtual.category ? taskAtual.category : 'Sem categoria'})`;
+    if (category) {
+        const categoryLabel = document.createElement('span');
+        categoryLabel.classList.add('category-label');
+        categoryLabel.textContent = `(${category})`;
+        li.appendChild(categoryLabel);
+    }
 
     if (completed) {
         li.classList.add('completed');
@@ -66,10 +80,26 @@ function handleDragEventsLi(li) {
 
 function handleSelectCategory(li, selectCategory, taskText) {
     selectCategory.append(new Option('Selecione uma categoria'), new Option('Trabalho'), new Option('Pessoal'), new Option('Urgente'));
+    const task = tasks.find(task => task.text === taskText);
+    if (task && task.category) {
+        selectCategory.value = task.category;
+    }
+
     selectCategory.addEventListener('change', (event) => {
-        const task = tasks.find(task => task.text === taskText);
-        task.category = event.target.value;
-        saveTasks();
+        // Atualiza a categoria no objeto da tarefa
+        if (task) {
+            task.category = event.target.value;
+            saveTasks(); // Salva a mudança no localStorage
+            const categoryLabel = li.querySelector('.category-label');
+            if (categoryLabel) {
+                categoryLabel.textContent = `(${task.category})`;
+            } else {
+                const newCategoryLabel = document.createElement('span');
+                newCategoryLabel.classList.add('category-label');
+                newCategoryLabel.textContent = `(${task.category})`;
+                li.appendChild(newCategoryLabel);
+            }
+        }
     });
 }
 
